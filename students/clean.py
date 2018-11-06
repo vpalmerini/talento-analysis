@@ -185,5 +185,140 @@ for i in range(len(df['Referência'])):
 			df['Referência'][i] = referrer
 
 
+# Data Analysis
+# subscription data
+total = len(df)
+subscribed = len(df.loc[df['Idade'].notna() == True])
+checkedin = len(df.loc[df['Status'] == 'checkedin'])
+
+# Visitors data
+# age
+# remove weird values
+age = df.loc[df['Idade'] < 75]
+# get the average
+age_avg = age.mean()['Idade']
+
+# gender
+male = len(df.loc[df['Gênero'] == 'M'])
+female = len(df.loc[df['Gênero'] == 'F'])
+
+# cities
+cities = df.groupby('Cidade').size()
+cities = cities.sort_values(ascending=False)
+cities_top10 = cities[:10]
+
+# first time as Talento's visitor
+first_time = len(df.loc[df['Primeira Vez'] == 'True'])
+not_first_time = total - first_time
+
+# referrer
+facebook = len(df.loc[df['Referência'] == 'Facebook'])
+email = len(df.loc[df['Referência'] == 'Email'])
+friends = len(df.loc[df['Referência'] == 'Amigos'])
+others = total - (facebook + email + friends)
+
+# main courses
+courses = df.groupby('Curso').size()
+courses = courses.sort_values(ascending=False)
+courses_top10 = courses[:10]
+
+# enroll year
+enroll_year = df.groupby('AnoDeEntrada').size()
+enroll_year = enroll_year.sort_values(ascending=False)
+enroll_year_top5 = enroll_year[:5]
+
+# universities
+universities = df.groupby('Faculdade').size()
+universities = universities.sort_values(ascending=False)
+universities_top10 = universities[:10]
+
+# english level
+basic_english = len(df.loc[df['Inglês'] == 'basic'])
+intermediate_english = len(df.loc[df['Inglês'] == 'intermediate'])
+advanced_english = len(df.loc[df['Inglês'] == 'advanced'])
+
+# excel level
+basic_excel = len(df.loc[df['Excel'] == 'basic'])
+intermediate_excel = len(df.loc[df['Excel'] == 'intermediate'])
+advanced_excel = len(df.loc[df['Excel'] == 'advanced'])
+
+# education
+undergraduate = len(df.loc[df['Escolaridade'] == 'Graduação'])
+masters = len(df.loc[df['Escolaridade'] == 'Mestrado'])
+phd = len(df.loc[df['Escolaridade'] == 'Doutorado'])
+high = len(df.loc[df['Escolaridade'] == 'Ensino Médio'])
+elementary = len(df.loc[df['Escolaridade'] == 'Ensino Fundamental'])
+
+# resumé
+one_resume = len(df.loc[df['Currículo1'].notna() == True])
+two_resume = len(df.loc[df['Currículo2'].notna() == True])
+
+
+
+# Visitors that have done checkin
+checkedin = df.loc[df['Status'] == 'checkedin']
+total = len(checkedin)
+# age
+# remove weird values
+age = checkedin.loc[checkedin['Idade'] < 75]
+# get the average
+age_avg = age.mean()['Idade']
+
+# gender
+male = len(checkedin.loc[checkedin['Gênero'] == 'M'])
+female = len(checkedin.loc[checkedin['Gênero'] == 'F'])
+
+# cities
+cities = checkedin.groupby('Cidade').size()
+cities = cities.sort_values(ascending=False)
+cities_top10 = cities[:10]
+
+# first time as Talento's visitor
+first_time = len(checkedin.loc[checkedin['Primeira Vez'] == 'True'])
+not_first_time = total - first_time
+
+# referrer
+facebook = len(checkedin.loc[checkedin['Referência'] == 'Facebook'])
+email = len(checkedin.loc[checkedin['Referência'] == 'Email'])
+friends = len(checkedin.loc[checkedin['Referência'] == 'Amigos'])
+others = total - (facebook + email + friends)
+
+# main courses
+courses = checkedin.groupby('Curso').size()
+courses = courses.sort_values(ascending=False)
+courses_top10 = courses[:10]
+
+# enroll year
+enroll_year = checkedin.groupby('AnoDeEntrada').size()
+enroll_year = enroll_year.sort_values(ascending=False)
+enroll_year_top5 = enroll_year[:5]
+
+# universities
+universities = checkedin.groupby('Faculdade').size()
+universities = universities.sort_values(ascending=False)
+universities_top10 = universities[:10]
+
+# english level
+basic_english = len(checkedin.loc[checkedin['Inglês'] == 'basic'])
+intermediate_english = len(checkedin.loc[checkedin['Inglês'] == 'intermediate'])
+advanced_english = len(checkedin.loc[checkedin['Inglês'] == 'advanced'])
+
+# excel level
+basic_excel = len(checkedin.loc[checkedin['Excel'] == 'basic'])
+intermediate_excel = len(checkedin.loc[checkedin['Excel'] == 'intermediate'])
+advanced_excel = len(checkedin.loc[checkedin['Excel'] == 'advanced'])
+
+# education
+undergraduate = len(checkedin.loc[checkedin['Escolaridade'] == 'Graduação'])
+masters = len(checkedin.loc[checkedin['Escolaridade'] == 'Mestrado'])
+phd = len(checkedin.loc[checkedin['Escolaridade'] == 'Doutorado'])
+high = len(checkedin.loc[checkedin['Escolaridade'] == 'Ensino Médio'])
+elementary = len(checkedin.loc[checkedin['Escolaridade'] == 'Ensino Fundamental'])
+
+# resumé
+one_resume = len(checkedin.loc[checkedin['Currículo1'].notna() == True])
+two_resume = len(checkedin.loc[checkedin['Currículo2'].notna() == True])
+
+
 # export to csv
 df.to_csv('Cleaned/CSV/MailingTalento2018.csv', encoding='utf-8')
