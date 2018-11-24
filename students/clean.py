@@ -2,7 +2,7 @@ import pandas as pd
 from fuzzywuzzy import fuzz, process
 
 # dataframe
-df = pd.read_csv('MailingTalento2018.csv', usecols=['profile.full_name', 'profile.email', 'application.phone', 'application.school', 'application.course', 'application.enroll_year', 'application.cv', 'application.cv2'])
+df = pd.read_csv('MailingTalento2018.csv')
 
 # renaming columns
 df = df.rename(index=str, columns={
@@ -128,7 +128,7 @@ courses = 	['Administração',
 
 for i in range(len(df['Curso'])):
 	for course in courses:
-		if (fuzz.token_set_ratio(course, df['Curso'][i]) > 90):
+		if (fuzz.token_sort_ratio(course, df['Curso'][i]) > 90):
 			df['Curso'][i] = course
 
 
@@ -181,9 +181,30 @@ referrers = ['Facebook',
 
 for i in range(len(df['Referência'])):
 	for referrer in referrers:
-		if (fuzz.token_set_ratio(referrer, df['Referência'][i]) > 90):
+		if (fuzz.token_set_ratio(referrer, df['Referência'][i]) > 80):
 			df['Referência'][i] = referrer
 
+
+# gender
+M = df.loc[df['Gênero'] == 'M']
+F = df.loc[df['Gênero'] == 'F']
+df = pd.concat([M,F])
+
+
+# education
+education_levels = ['Graduação',
+					'Mestrado',
+					'Doutorado',
+					'Ensino Médio',
+					'Ensino Fundamental'
+				]
+
+for i in range(len(df['Escolaridade'])):
+	for level in education_levels:
+		if (fuzz.token_set_ratio(level, df['Escolaridade'][i]) > 80):
+			df['Escolaridade'][i] = level
+		if (df['Escolaridade'][i] == 'Brasil'):
+			df['Escolaridade'][i] = ''
 
 # Data Analysis
 # subscription data
@@ -321,4 +342,4 @@ two_resume = len(checkedin.loc[checkedin['Currículo2'].notna() == True])
 
 
 # export to csv
-df.to_csv('Cleaned/CSV/MailingTalento2018.csv', encoding='utf-8')
+df.to_csv('MailingTalento2018Cleaned.csv', encoding='utf-8')
